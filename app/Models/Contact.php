@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     protected $table = 'contact';
-    protected $fillable = ['name', 'email', 'phone'];
+    protected $fillable = ['id', 'name', 'email', 'phone'];
 
     public $timestamps = false;
 

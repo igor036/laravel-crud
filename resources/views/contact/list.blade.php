@@ -22,7 +22,11 @@
                     <td>{{$contact->email}}</td>
                     <td>{{$contact->phone}}</td>
                     <td>
-                        <button>Edit</button>
+                        <form action="contact/edit/{{ $contact->id }}" method="post">
+                            @csrf
+                            @method('get')
+                            <button>Edit</button>
+                        </form>
                         <form action="contact/delete/{{ $contact->id }}" method="post">
                             @csrf
                             @method('delete')

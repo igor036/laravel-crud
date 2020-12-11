@@ -15,11 +15,28 @@ class ContactController extends Controller
     }
 
     public function create_index() {
-        return view('contact.form', ['title' => 'New Contact']);
+        return view('contact.form', [
+            'title' => 'New Contact',
+            'contact' => new Contact
+        ]);
+    }
+
+    public function update_index($id) {
+        $contact = Contact::findOrFail($id);
+        return view('contact.form', [
+            'title' => 'Edit Contact',
+            'contact' => $contact
+        ]);
     }
 
     public function create(Request $request) {
         Contact::create($request->all());
+        return Redirect::to('/contact');
+    }
+
+    public function update($id, Request $request) {
+        $contact = $request->all();
+        Contact::findOrFail($id)->update($contact);
         return Redirect::to('/contact');
     }
 
