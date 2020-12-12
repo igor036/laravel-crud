@@ -11,5 +11,4 @@ Route::post('contact/store', [ContactController::class, 'store']);
 
 Route::get('contact/edit/{id}', [ContactController::class, 'edit']);
 Route::put('contact/update/{id}', [ContactController::class, 'update']);
-
 Route::delete('contact/destroy/{id}', [ContactController::class, 'destroy']);

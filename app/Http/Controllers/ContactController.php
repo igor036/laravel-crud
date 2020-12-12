@@ -6,8 +6,15 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
+
 class ContactController extends Controller
 {
+    protected const CONTACT_VALIDATION_RULES = [
+        'name' => 'required',
+        'email' => 'required',
+        'phone' => 'required'
+    ];
+
     public function index()
     {
         $contacts = Contact::query()->get();
@@ -26,6 +33,7 @@ class ContactController extends Controller
     }
 
     public function store(Request $request) {
+        $request->validate(ContactController::CONTACT_VALIDATION_RULES);
         Contact::create($request->all());
         return Redirect::to('/contact');
     }
@@ -39,8 +47,8 @@ class ContactController extends Controller
     }
 
     public function update($id, Request $request) {
-        $contact = $request->all();
-        Contact::findOrFail($id)->update($contact);
+        $request->validate(ContactController::CONTACT_VALIDATION_RULES);
+        Contact::findOrFail($id)->update($request->all());
         return Redirect::to('/contact');
     }
 

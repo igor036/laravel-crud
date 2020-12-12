@@ -5,8 +5,11 @@
         <h1>{{ $title }}</h1>
     </div>
 
+
     @if (Request::is('*/edit/*'))
-    <form action="{{ url('contact/update') }}/{{ $contact->id }}" method="post"> @method('put')
+    <form action="{{ url('contact/update') }}/{{ $contact->id }}" method="post">
+        @csrf
+        @method('put')
     @else
     <form action="{{ url('contact/store') }}" method="post">
     @endif
@@ -25,5 +28,18 @@
         <br/>
         <button type="submit" >Submit</button>
     </form>
+
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+
 
 @endsection
