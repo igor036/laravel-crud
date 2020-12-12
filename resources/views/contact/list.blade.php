@@ -4,7 +4,7 @@
 
         <h1>Contact List</h1>
         <p>
-            <a href="{{ url('contact/new') }}">New Contact</a>
+            <a href="{{ url('contact/create') }}">New Contact</a>
         </p>
 
         <table>
@@ -23,13 +23,11 @@
                     <td>{{$contact->phone}}</td>
                     <td>
                         <form action="contact/edit/{{ $contact->id }}" method="post">
-                            @csrf
-                            @method('get')
+                            @csrf @method('get')
                             <button>Edit</button>
                         </form>
-                        <form action="contact/delete/{{ $contact->id }}" method="post">
-                            @csrf
-                            @method('delete')
+                        <form action="contact/destroy/{{ $contact->id }}" method="post">
+                            @csrf @method('delete')
                             <button>delete</button>
                         </form>
                     </td>

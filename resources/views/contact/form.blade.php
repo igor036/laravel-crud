@@ -6,9 +6,9 @@
     </div>
 
     @if (Request::is('*/edit/*'))
-    <form action="{{ url('contact/update') }}/{{ $contact->id }}" method="post">
+    <form action="{{ url('contact/update') }}/{{ $contact->id }}" method="post"> @method('put')
     @else
-    <form action="{{ url('contact/create') }}" method="post">
+    <form action="{{ url('contact/store') }}" method="post">
     @endif
         @csrf
         <div>
