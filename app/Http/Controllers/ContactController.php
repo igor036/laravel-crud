@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Database\Eloquent\Collection;
 
 
-class ContactController extends Controller
-{
+class ContactController extends Controller {
+
+    protected const CONTACT_NOT_FOUND_MESSAGE = 'Unauthorized action.';
     protected const CONTACT_VALIDATION_RULES = [
         'name' => 'required',
         'email' => 'required',
         'phone' => 'required'
     ];
 
-    public function index()
-    {
+    public function index() {
         $contacts = Contact::query()->get();
-        return view('contact.list', ['contacts' => $contacts]);
+        return view('contact.list', $this->getContactsBody($contacts));
     }
 
     public function show($id) {
@@ -26,10 +28,7 @@ class ContactController extends Controller
     }
 
     public function create() {
-        return view('contact.form', [
-            'title' => 'New Contact',
-            'contact' => new Contact
-        ]);
+        return view('contact.form', $this->getContactBody(new Contact));
     }
 
     public function store(Request $request) {
@@ -39,21 +38,34 @@ class ContactController extends Controller
     }
 
     public function edit($id) {
-        $contact = Contact::findOrFail($id);
-        return view('contact.form', [
-            'title' => 'Edit Contact',
-            'contact' => $contact
-        ]);
+        $contact = $this->getContact($id);
+        return view('contact.form', $this->getContactBody($contact));
     }
 
     public function update($id, Request $request) {
         $request->validate(ContactController::CONTACT_VALIDATION_RULES);
-        Contact::findOrFail($id)->update($request->all());
+        $this->getContact($id)->update($request->all());
         return Redirect::to('/contact');
     }
 
     public function destroy($id) {
-        Contact::findOrFail($id)->delete();
+        $this->getContact($id)->delete();
         return Redirect::to('/contact');
+    }
+
+    private function getContactBody(Contact $contact) {
+        return  ['contact' => $contact];
+    }
+
+    private function getContactsBody(Collection $contacts) {
+        return  ['contacts' => $contacts];
+    }
+
+    private function getContact(int $id) {
+        $contact = Contact::find($id);
+        if ($contact == NULL) {
+            abort(Response::HTTP_NOT_FOUND, ContactController::CONTACT_NOT_FOUND_MESSAGE);
+        }
+        return $contact;
     }
 }

@@ -2,7 +2,11 @@
 @section('content')
 
     <div>
-        <h1>{{ $title }}</h1>
+        @if (Request::is('*/edit/*'))
+            <h1>Edit Contact</h1>
+        @else
+            <h1>New Contact</h1>
+        @endif
     </div>
 
 

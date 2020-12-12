@@ -26,7 +26,7 @@
                         <td>{{$contact->email}}</td>
                         <td>{{$contact->phone}}</td>
                         <td>
-                            <button type="button" onclick="window.location='{{ url('contact/edit') }}/{{ $contact->id }}' ">Edit</button>
+                            <button type="button" onclick="window.location='contact/edit/{{ $contact->id }}' ">Edit</button>
                             <form action="contact/destroy/{{ $contact->id }}" method="post">
                                 @csrf @method('delete')
                                 <button>delete</button>
