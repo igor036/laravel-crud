@@ -1,13 +1,8 @@
 @extends('layout')
 @section('content')
 
-    <div>
-        @if (Request::is('*/edit/*'))
-            <h1>Edit Contact</h1>
-        @else
-            <h1>New Contact</h1>
-        @endif
-    </div>
+
+<div  class="container mt-5">
 
 
     @if (Request::is('*/edit/*'))
@@ -18,32 +13,68 @@
     <form action="{{ url('contact/store') }}" method="post">
     @endif
         @csrf
-        <div>
-            <label>Name</label><input type="text" name="name" value="{{ $contact->name }}"/>
+
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            @if (Request::is('*/edit/*'))
+                                <h1><b>Edit Contact</b></h1>
+                            @else
+                                <h1><b>New Contact</b></h1>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="name"><b>Name</b></label>
+                                    <input type="text" class="form-control" id="name" name="name" value="{{ $contact->name }}"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="email"><b>E-mail</b></label>
+                                    <input class="form-control"  type="text" id="email" name="email" value="{{ $contact->email }}"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="phone"><b>Phone</b></label>
+                                    <input class="form-control"  type="text" id="phone" name="phone" value="{{ $contact->phone }}"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <button class="btn btn-primary form-control" type="submit" >Submit</button>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col">
+                                    @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br/>
-        <div>
-            <label>E-mail</label><input type="text" name="email" value="{{ $contact->email }}"/>
-        </div>
-        <br/>
-        <div>
-            <label>Phone</label><input type="text" name="phone" value="{{ $contact->phone }}"/>
-        </div>
-        <br/>
-        <button type="submit" >Submit</button>
     </form>
-
-
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
-
+</div>
 
 @endsection
