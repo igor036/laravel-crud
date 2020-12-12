@@ -24,7 +24,8 @@ class ContactController extends Controller {
     }
 
     public function show($id) {
-        return Contact::findOrFail($id);
+        $contact = $this->getContact($id);
+        return view('contact.show', $this->getContactBody($contact));
     }
 
     public function create() {
