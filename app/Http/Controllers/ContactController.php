@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AddContactProcessed;
+use App\Events\DeleteContactProcessed;
+use App\Events\SendEmailProcessed;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Collection;
 
-
 class ContactController extends Controller {
 
     protected const CONTACT_NOT_FOUND_MESSAGE = 'Unauthorized action.';
+    protected const ERROR_WHEN_TRY_DELETE_CONTACT_MESSAGE = 'Unexpected error when try delete a contact.';
     protected const CONTACT_VALIDATION_RULES = [
         'name' => 'required',
         'email' => 'required',
@@ -24,6 +27,7 @@ class ContactController extends Controller {
     }
 
     public function show($id) {
+        /** @var contact Contact */
         $contact = $this->getContact($id);
         return view('contact.show', $this->getContactBody($contact));
     }
@@ -33,12 +37,17 @@ class ContactController extends Controller {
     }
 
     public function store(Request $request) {
+
         $request->validate(ContactController::CONTACT_VALIDATION_RULES);
-        Contact::create($request->all());
+
+        /** @var Contact contact */
+        $contact = Contact::create($request->all());
+        event(new AddContactProcessed($contact));
         return Redirect::to('/contact');
     }
 
     public function edit($id) {
+        /** @var contact Contact */
         $contact = $this->getContact($id);
         return view('contact.form', $this->getContactBody($contact));
     }
@@ -50,8 +59,14 @@ class ContactController extends Controller {
     }
 
     public function destroy($id) {
-        $this->getContact($id)->delete();
-        return Redirect::to('/contact');
+
+        $contact = $this->getContact($id);
+        if ($contact->delete()) {
+            event(new DeleteContactProcessed($contact));
+            return Redirect::to('/contact');
+        }
+
+        abort(Response::HTTP_INTERNAL_SERVER_ERROR, ContactController::ERROR_WHEN_TRY_DELETE_CONTACT_MESSAGE);
     }
 
     private function getContactBody(Contact $contact) {

@@ -2,31 +2,20 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Events\AddContactProcessed;
+use App\Events\SendEmailProcessed;
+use App\Events\DeleteContactProcessed;
+use App\Listeners\AddContactNotification;
+use App\Listeners\SendEmailNotification;
+use App\Listeners\DeleteContactNotification;
+
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
+        SendEmailProcessed::class => [SendEmailNotification::class],
+        AddContactProcessed::class => [AddContactNotification::class],
+        DeleteContactProcessed::class => [DeleteContactNotification::class]
     ];
-
-    /**
-     * Register any events for your application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
 }
