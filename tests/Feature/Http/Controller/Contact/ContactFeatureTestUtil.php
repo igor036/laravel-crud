@@ -16,7 +16,11 @@ abstract class ContactFeatureTestUtil {
         TestCase::assertEquals($contactA->phone, $contactB->phone);
     }
 
-    public static function mokeContact(int $count) {
+    public static function mokeContactInstance() {
+        return app(ContactFactory::class)->make();
+    }
+
+    public static function mokeContactList(int $count) {
         $factory = app(ContactFactory::class);
         for ($i = 0; $i < $count; $i++) {
             $factory->make()->save();

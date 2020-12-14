@@ -30,7 +30,7 @@ class ContactIndexFeatureTest extends TestCase
      */
     public function it_should_render_index_with_only_one_contact() {
 
-        ContactFeatureTestUtil::mokeContact(1);
+        ContactFeatureTestUtil::mokeContactList(1);
 
         $response = $this->get('contact');
         $contacts = $response->viewData('contacts');
@@ -46,7 +46,7 @@ class ContactIndexFeatureTest extends TestCase
      */
     public function it_should_render_index_with_more_one_contacts() {
 
-        ContactFeatureTestUtil::mokeContact(10);
+        ContactFeatureTestUtil::mokeContactList(10);
 
         $response = $this->get('contact');
         $contacts = $response->viewData('contacts');

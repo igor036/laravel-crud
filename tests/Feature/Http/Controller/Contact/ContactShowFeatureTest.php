@@ -5,7 +5,6 @@ namespace Tests\Feature\Http\Controller\Contact;
 use Tests\TestCase;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Database\Factories\ContactFactory;
 
 class ContactShowFeatureTest extends TestCase
 {
@@ -28,7 +27,7 @@ class ContactShowFeatureTest extends TestCase
      */
     public function it_should_return_a_contact_object()
     {
-        $contact = app(ContactFactory::class)->make();
+        $contact = ContactFeatureTestUtil::mokeContactInstance();
         $contact->save();
 
         $response = $this->get('contact/'.$contact->id);
