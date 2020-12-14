@@ -17,6 +17,24 @@ abstract class ContactFeatureTestUtil {
         TestCase::assertEquals($contactA->phone, $contactB->phone);
     }
 
+    public static function mokeContactInstanceWithInvalidName() {
+        $contact = app(ContactFactory::class)->make();
+        $contact->name = '';
+        return $contact;
+    }
+
+    public static function mokeContactInstanceWithInvalidEmail() {
+        $contact = app(ContactFactory::class)->make();
+        $contact->email = '';
+        return $contact;
+    }
+
+    public static function mokeContactInstanceWithInvalidPhone() {
+        $contact = app(ContactFactory::class)->make();
+        $contact->phone = '';
+        return $contact;
+    }
+
     public static function mokeContactInstance(bool $save) {
         $contact = app(ContactFactory::class)->make();
         if ($save) $contact->save();
