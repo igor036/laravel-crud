@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controller\Contact;
 use Tests\TestCase;
 use Database\Factories\ContactFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 
 class ContactIndexFeatureTest extends TestCase
 {
@@ -16,10 +17,11 @@ class ContactIndexFeatureTest extends TestCase
      * @return void
      */
     public function it_should_render_index_without_contacts() {
+
         $response = $this->get('contact');
         $contacts = $response->viewData('contacts');
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(0, $contacts->count());
     }
 
@@ -34,7 +36,7 @@ class ContactIndexFeatureTest extends TestCase
         $response = $this->get('contact');
         $contacts = $response->viewData('contacts');
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(1, $contacts->count());
 
     }
@@ -50,7 +52,7 @@ class ContactIndexFeatureTest extends TestCase
         $response = $this->get('contact');
         $contacts = $response->viewData('contacts');
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(10, $contacts->count());
 
     }
