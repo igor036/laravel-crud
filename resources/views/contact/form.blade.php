@@ -5,12 +5,12 @@
 <div  class="container mt-5">
 
 
-    @if (Request::is('*/edit/*'))
-    <form action="{{ url('contact/update') }}/{{ $contact->id }}" method="post">
+    @if (Request::is('*/edit'))
+    <form action="{{route('contact.update', $contact->id)}}" name='update' method="post">
         @csrf
         @method('put')
     @else
-    <form action="{{ url('contact/store') }}" method="post">
+    <form action="{{route('contact.store')}}" method="post" name='store'>
     @endif
         @csrf
 

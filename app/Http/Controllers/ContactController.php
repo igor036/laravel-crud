@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Events\AddContactProcessed;
 use App\Events\DeleteContactProcessed;
-use App\Events\SendEmailProcessed;
-use App\Models\Contact;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Collection;
 
 class ContactController extends Controller {
 
     protected const CONTACT_NOT_FOUND_MESSAGE = 'Unauthorized action.';
     protected const ERROR_WHEN_TRY_DELETE_CONTACT_MESSAGE = 'Unexpected error when try delete a contact.';
+
+    protected const CONTACT_DELETED_WITH_SUCCESS = 'Contact deleted with success!';
+    protected const CONTACT_CREATED_WITH_SUCCESS = 'Contact created with success!';
+    protected const CONTACT_UPDATED_WITH_SUCCESS = 'Contact updated with success!';
+
     protected const CONTACT_VALIDATION_RULES = [
         'name' => 'required',
         'email' => 'required',
@@ -23,7 +27,7 @@ class ContactController extends Controller {
 
     public function index() {
         $contacts = Contact::query()->get();
-        return view('contact.list', $this->getContactsBody($contacts));
+        return view('contact.index', $this->getContactsBody($contacts));
     }
 
     public function show($id) {
@@ -43,7 +47,7 @@ class ContactController extends Controller {
         /** @var Contact contact */
         $contact = Contact::create($request->all());
         event(new AddContactProcessed($contact));
-        return Redirect::to('/contact');
+        return $this->redirectToIndex(ContactController::CONTACT_CREATED_WITH_SUCCESS);
     }
 
     public function edit($id) {
@@ -55,7 +59,7 @@ class ContactController extends Controller {
     public function update($id, Request $request) {
         $request->validate(ContactController::CONTACT_VALIDATION_RULES);
         $this->getContact($id)->update($request->all());
-        return Redirect::to('/contact');
+        return $this->redirectToIndex(ContactController::CONTACT_UPDATED_WITH_SUCCESS);
     }
 
     public function destroy($id) {
@@ -63,10 +67,16 @@ class ContactController extends Controller {
         $contact = $this->getContact($id);
         if ($contact->delete()) {
             event(new DeleteContactProcessed($contact));
-            return Redirect::to('/contact');
+            return $this->redirectToIndex(ContactController::CONTACT_DELETED_WITH_SUCCESS);
         }
 
         abort(Response::HTTP_INTERNAL_SERVER_ERROR, ContactController::ERROR_WHEN_TRY_DELETE_CONTACT_MESSAGE);
+    }
+
+    private function redirectToIndex(string $message) {
+        return redirect()
+                ->route('contact.index')
+                ->with('message', $message);
     }
 
     private function getContactBody(Contact $contact) {
