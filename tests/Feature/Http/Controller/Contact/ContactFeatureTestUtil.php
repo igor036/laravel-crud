@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 abstract class ContactFeatureTestUtil {
 
     public static function assertContact(Contact $contactA, Contact $contactB) {
-        TestCase::assertEquals($contactA->id, $contactB->id);
         TestCase::assertEquals($contactA->name, $contactB->name);
         TestCase::assertEquals($contactA->email, $contactB->email);
         TestCase::assertEquals($contactA->phone, $contactB->phone);

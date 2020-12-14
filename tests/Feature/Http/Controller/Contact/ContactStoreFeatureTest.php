@@ -21,6 +21,12 @@ class ContactStoreFeatureTest extends TestCase
         $contact  = ContactFeatureTestUtil::mokeContactInstance(false);
         $response = $this->post('contact', $contact->getAttributes());
         $response->assertStatus(Response::HTTP_FOUND);
+
+        $queryContact = Contact::where('email', $contact->email)->first();
+
+        $this->assertNotNull($queryContact);
+        ContactFeatureTestUtil::assertContact($contact, $queryContact);
+
     }
 
     /**
@@ -65,11 +71,5 @@ class ContactStoreFeatureTest extends TestCase
         $contact  = new Contact();
         $response = $this->post('contact', $contact->getAttributes());
         $response->assertSessionHasErrors(['email', 'name', 'phone']);
-    }
-
-    private function assertExistentContact(int $id, Contact $contact) {
-        $response = $this->get('contact/show/'.$id);
-        $response->assertStatus(Response::HTTP_OK);
-        ContactFeatureTestUtil::assertContact($contact, $response->viewData('contact'));
     }
 }
