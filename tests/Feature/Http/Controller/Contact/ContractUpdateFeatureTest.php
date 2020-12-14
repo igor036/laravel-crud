@@ -20,7 +20,7 @@ class ContractUpdateFeatureTest extends TestCase
     {
 
         $contact = ContactFeatureTestUtil::mokeContactInstance(false);
-        $contact->id = 20000;
+        $contact->id = 0;
         $response = $this->put('contact/'.$contact->id, $contact->getAttributes());
         $response->assertStatus(Response::HTTP_NOT_FOUND);
     }
