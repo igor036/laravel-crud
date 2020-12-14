@@ -5,6 +5,8 @@ namespace Tests\Feature\Http\Controller\Contact;
 use App\Models\Contact;
 use Tests\TestCase;
 
+use Database\Factories\ContactFactory;
+
 abstract class ContactFeatureTestUtil {
 
     public static function assertContact(Contact $contactA, Contact $contactB) {
@@ -14,4 +16,10 @@ abstract class ContactFeatureTestUtil {
         TestCase::assertEquals($contactA->phone, $contactB->phone);
     }
 
+    public static function mokeContact(int $count) {
+        $factory = app(ContactFactory::class);
+        for ($i = 0; $i < $count; $i++) {
+            $factory->make()->save();
+        }
+    }
 }
