@@ -6,6 +6,7 @@ use App\Models\Contact;
 use Tests\TestCase;
 
 use Database\Factories\ContactFactory;
+use Illuminate\Support\Collection;
 
 abstract class ContactFeatureTestUtil {
 
@@ -16,14 +17,20 @@ abstract class ContactFeatureTestUtil {
         TestCase::assertEquals($contactA->phone, $contactB->phone);
     }
 
-    public static function mokeContactInstance() {
-        return app(ContactFactory::class)->make();
+    public static function mokeContactInstance(bool $save) {
+        $contact = app(ContactFactory::class)->make();
+        if ($save) $contact->save();
+        return $contact;
     }
 
-    public static function mokeContactList(int $count) {
+    public static function mokeContactList(int $count, bool $save) {
         $factory = app(ContactFactory::class);
+        $contacts = new Collection();
         for ($i = 0; $i < $count; $i++) {
-            $factory->make()->save();
+            $contact = $factory->make();
+            $contacts->add($contact);
+            if ($save) $contact->save();
         }
+        return $contacts;
     }
 }

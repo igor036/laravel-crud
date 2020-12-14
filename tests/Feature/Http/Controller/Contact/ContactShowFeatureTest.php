@@ -27,9 +27,7 @@ class ContactShowFeatureTest extends TestCase
      */
     public function it_should_return_a_contact_object()
     {
-        $contact = ContactFeatureTestUtil::mokeContactInstance();
-        $contact->save();
-
+        $contact = ContactFeatureTestUtil::mokeContactInstance(true);
         $response = $this->get('contact/'.$contact->id);
         $response->assertStatus(Response::HTTP_OK);
         ContactFeatureTestUtil::assertContact($contact, $response->viewData('contact'));
