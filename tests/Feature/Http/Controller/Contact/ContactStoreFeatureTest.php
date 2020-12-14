@@ -14,7 +14,7 @@ class ContactStoreFeatureTest extends TestCase
 
     /**
      * @test
-     * @return void\
+     * @return void
      */
     public function it_should_create_new_contact_with_success()
     {

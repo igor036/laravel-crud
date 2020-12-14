@@ -11,6 +11,20 @@ class ContractUpdateFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_should_return_404_when_try_update_a_nonexistent_contact()
+    {
+
+        $contact = ContactFeatureTestUtil::mokeContactInstance(false);
+        $contact->id = 20000;
+        $response = $this->put('contact/'.$contact->id, $contact->getAttributes());
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
     /**
      * @test
      * @return void
