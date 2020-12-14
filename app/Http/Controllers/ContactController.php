@@ -30,7 +30,7 @@ class ContactController extends Controller {
         return view('contact.index', $this->getContactsBody($contacts));
     }
 
-    public function show($id) {
+    public function show(int $id) {
         /** @var contact Contact */
         $contact = $this->getContact($id);
         return view('contact.show', $this->getContactBody($contact));
@@ -50,19 +50,19 @@ class ContactController extends Controller {
         return $this->redirectToIndex(ContactController::CONTACT_CREATED_WITH_SUCCESS);
     }
 
-    public function edit($id) {
+    public function edit(int $id) {
         /** @var contact Contact */
         $contact = $this->getContact($id);
         return view('contact.form', $this->getContactBody($contact));
     }
 
-    public function update($id, Request $request) {
+    public function update(int $id, Request $request) {
         $request->validate(ContactController::CONTACT_VALIDATION_RULES);
         $this->getContact($id)->update($request->all());
         return $this->redirectToIndex(ContactController::CONTACT_UPDATED_WITH_SUCCESS);
     }
 
-    public function destroy($id) {
+    public function destroy(int $id) {
 
         $contact = $this->getContact($id);
         if ($contact->delete()) {
