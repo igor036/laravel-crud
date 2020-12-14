@@ -50,7 +50,7 @@
                                             <td>{{$contact->email}}</td>
                                             <td>{{$contact->phone}}</td>
                                             <td>
-                                                <button class="btn btn-sm btn-info text-white" type="button" onclick="window.location='contact/show/{{ $contact->id }}' ">
+                                                <button class="btn btn-sm btn-info text-white" type="button" onclick="window.location='{{route('contact.show', $contact->id)}}' ">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                                 <button class="btn btn-sm btn-primary" type="button" onclick="window.location='{{route('contact.edit', $contact->id)}}' ">
