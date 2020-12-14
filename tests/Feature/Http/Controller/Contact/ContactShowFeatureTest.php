@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controller\Contact;
 
-use App\Models\Contact;
 use Tests\TestCase;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -34,13 +33,6 @@ class ContactShowFeatureTest extends TestCase
 
         $response = $this->get('contact/'.$contact->id);
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertContact($contact, $response->viewData('contact'));
-    }
-
-    private function assertContact(Contact $contactA, Contact $contactB) {
-        $this->assertEquals($contactA->id, $contactB->id);
-        $this->assertEquals($contactA->name, $contactB->name);
-        $this->assertEquals($contactA->email, $contactB->email);
-        $this->assertEquals($contactA->phone, $contactB->phone);
+        ContactFeatureTestUtil::assertContact($contact, $response->viewData('contact'));
     }
 }
