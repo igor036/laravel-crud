@@ -37,12 +37,12 @@
                             <th class="col">Actions</th>
                         </thead>
                         <tbody>
-                            @if (count($contacts) === 0)
+                            @if ($pagination->count() === 0)
                                 <tr>
                                     <td colspan="4">You contact list is empty!</\td>
                                 </tr>
                             @else
-                                @foreach ($contacts as $contact)
+                                @foreach ($pagination->items() as $contact)
                                     <form action="{{route('contact.destroy', $contact->id)}}" onsubmit="return confirm('Are you sure?')" method="post">
                                         @csrf @method('delete')
                                         <tr>
@@ -67,8 +67,23 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer">
+                    <div class="text-center">
+                        @if ($pagination->currentPage() > 1)
+                            <button style="margin-right: 5px" class="btn btn-sm btn-primary" onclick="window.location='{{$pagination->previousPageUrl()}}' ">
+                                <i class="fas fa-backward"></i>
+                            </button>
+                        @endif
+                        <input style="width: 20px" value="{{ $pagination->currentPage() }}" />
+                        <b>/ {{ $pagination->lastPage() }}</b>
+                        @if ($pagination->currentPage() < $pagination->lastPage())
+                            <button style="margin-left: 5px" class="btn btn-sm btn-primary" onclick="window.location='{{$pagination->nextPageUrl()}}' ">
+                                <i class="fas fa-forward"></i>
+                            </button>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 @endsection

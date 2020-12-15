@@ -8,7 +8,7 @@ use App\Events\DeleteContactProcessed;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ContactController extends Controller {
 
@@ -17,6 +17,7 @@ class ContactController extends Controller {
     public const CONTACT_CREATED_WITH_SUCCESS = 'Contact created with success!';
     public const CONTACT_UPDATED_WITH_SUCCESS = 'Contact updated with success!';
     public const ERROR_WHEN_TRY_DELETE_CONTACT_MESSAGE = 'Unexpected error when try delete a contact.';
+    public const CONTACTS_PER_PAGE = 10;
 
     protected const CONTACT_VALIDATION_RULES = [
         'name' => 'required',
@@ -24,9 +25,13 @@ class ContactController extends Controller {
         'phone' => 'required'
     ];
 
-    public function index() {
-        $contacts = Contact::query()->get();
-        return view('contact.index', $this->getContactsBody($contacts));
+    public function index(Request $request) {
+        $contacts_page = $request->input('contacts_page') ?? 1;
+        $pagination    = Contact::query()->paginate(
+            ContactController::CONTACTS_PER_PAGE,
+            ['*'], 'contacts_page', $contacts_page
+        );
+        return view('contact.index', $this->getContactsBody($pagination));
     }
 
     public function show(int $id) {
@@ -82,8 +87,8 @@ class ContactController extends Controller {
         return  ['contact' => $contact];
     }
 
-    private function getContactsBody(Collection $contacts) {
-        return  ['contacts' => $contacts];
+    private function getContactsBody(LengthAwarePaginator $pagination) {
+        return  ['pagination' => $pagination];
     }
 
     private function getContact(int $id) {
