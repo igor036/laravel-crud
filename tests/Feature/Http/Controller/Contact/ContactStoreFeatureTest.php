@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controller\Contact;
 
+use App\Http\Controllers\ContactController;
 use App\Models\Contact;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,15 +19,15 @@ class ContactStoreFeatureTest extends TestCase
      */
     public function it_should_create_new_contact_with_success()
     {
-        $contact  = ContactFeatureTestUtil::mokeContactInstance(false);
-        $response = $this->post('contact', $contact->getAttributes());
-        $response->assertStatus(Response::HTTP_FOUND);
-
+        $contact      = ContactFeatureTestUtil::mokeContactInstance(false);
+        $response     = $this->post('contact', $contact->getAttributes());
         $queryContact = Contact::where('email', $contact->email)->first();
+        $message      = $response->getSession()->get('message');
 
+        $response->assertStatus(Response::HTTP_FOUND);
         $this->assertNotNull($queryContact);
+        $this->assertEquals(ContactController::CONTACT_CREATED_WITH_SUCCESS, $message);
         ContactFeatureTestUtil::assertContact($contact, $queryContact);
-
     }
 
     /**
