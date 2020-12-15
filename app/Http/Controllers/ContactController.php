@@ -12,12 +12,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ContactController extends Controller {
 
-    protected const CONTACT_NOT_FOUND_MESSAGE = 'Unauthorized action.';
-    protected const ERROR_WHEN_TRY_DELETE_CONTACT_MESSAGE = 'Unexpected error when try delete a contact.';
-
-    protected const CONTACT_DELETED_WITH_SUCCESS = 'Contact deleted with success!';
-    protected const CONTACT_CREATED_WITH_SUCCESS = 'Contact created with success!';
-    protected const CONTACT_UPDATED_WITH_SUCCESS = 'Contact updated with success!';
+    public const CONTACT_NOT_FOUND_MESSAGE = 'Unauthorized action.';
+    public const CONTACT_DELETED_WITH_SUCCESS = 'Contact deleted with success!';
+    public const CONTACT_CREATED_WITH_SUCCESS = 'Contact created with success!';
+    public const CONTACT_UPDATED_WITH_SUCCESS = 'Contact updated with success!';
+    public const ERROR_WHEN_TRY_DELETE_CONTACT_MESSAGE = 'Unexpected error when try delete a contact.';
 
     protected const CONTACT_VALIDATION_RULES = [
         'name' => 'required',
