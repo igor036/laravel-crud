@@ -12,7 +12,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ContactController extends Controller {
 
-    public const CONTACT_NOT_FOUND_MESSAGE = 'Unauthorized action.';
+    public const CONTACT_NOT_FOUND_MESSAGE = 'Contact not found.';
     public const CONTACT_DELETED_WITH_SUCCESS = 'Contact deleted with success!';
     public const CONTACT_CREATED_WITH_SUCCESS = 'Contact created with success!';
     public const CONTACT_UPDATED_WITH_SUCCESS = 'Contact updated with success!';
