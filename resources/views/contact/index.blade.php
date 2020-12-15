@@ -37,7 +37,7 @@
                             <th class="col">Actions</th>
                         </thead>
                         <tbody>
-                            @if ($pagination->count() === 0)
+                            @if ($pagination->count() == 0)
                                 <tr>
                                     <td colspan="4">You contact list is empty!</\td>
                                 </tr>
@@ -67,22 +67,26 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer">
-                    <div class="text-center">
-                        @if ($pagination->currentPage() > 1)
-                            <button style="margin-right: 5px" class="btn btn-sm btn-primary" onclick="window.location='{{$pagination->previousPageUrl()}}' ">
-                                <i class="fas fa-backward"></i>
-                            </button>
-                        @endif
-                        <input style="width: 20px" value="{{ $pagination->currentPage() }}" />
-                        <b>/ {{ $pagination->lastPage() }}</b>
-                        @if ($pagination->currentPage() < $pagination->lastPage())
-                            <button style="margin-left: 5px" class="btn btn-sm btn-primary" onclick="window.location='{{$pagination->nextPageUrl()}}' ">
-                                <i class="fas fa-forward"></i>
-                            </button>
-                        @endif
+
+                @if ($pagination->count() > 0)
+                    <div class="card-footer">
+                        <div class="text-center">
+                            @if ($pagination->currentPage() > 1)
+                                <button style="margin-right: 5px" class="btn btn-sm btn-primary" onclick="window.location='{{$pagination->previousPageUrl()}}' ">
+                                    <i class="fas fa-backward"></i>
+                                </button>
+                            @endif
+                            <input style="width: 20px" value="{{ $pagination->currentPage() }}" />
+                            <b>/ {{ $pagination->lastPage() }}</b>
+                            @if ($pagination->currentPage() < $pagination->lastPage())
+                                <button style="margin-left: 5px" class="btn btn-sm btn-primary" onclick="window.location='{{$pagination->nextPageUrl()}}' ">
+                                    <i class="fas fa-forward"></i>
+                                </button>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
         </div>
     </div>
