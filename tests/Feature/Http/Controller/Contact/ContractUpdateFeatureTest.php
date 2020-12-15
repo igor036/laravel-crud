@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controller\Contact;
 
+use App\Http\Controllers\ContactController;
 use App\Models\Contact;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -35,10 +36,13 @@ class ContractUpdateFeatureTest extends TestCase
         $contact = ContactFeatureTestUtil::mokeContactInstance(true);
         $contact->name = 'Igor Joaquim';
 
-        $response = $this->put('contact/'.$contact->id, $contact->getAttributes());
-        $response->assertStatus(Response::HTTP_FOUND);
-
+        $response     = $this->put('contact/'.$contact->id, $contact->getAttributes());
+        $message      = $response->getSession()->get('message');
         $queryContact = Contact::find($contact->id);
+
+        $response->assertStatus(Response::HTTP_FOUND);
+        $this->assertNotNull($queryContact);
+        $this->assertEquals(ContactController::CONTACT_UPDATED_WITH_SUCCESS, $message);
         ContactFeatureTestUtil::assertContact($contact, $queryContact);
     }
 
