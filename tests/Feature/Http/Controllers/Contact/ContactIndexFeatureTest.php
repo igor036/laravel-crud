@@ -3,8 +3,9 @@
 namespace Tests\Feature\Http\Controllers\Contact;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Illuminate\Http\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContactIndexFeatureTest extends TestCase
 {

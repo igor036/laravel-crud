@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers\Contact;
 
 use Tests\TestCase;
+
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers\Contact;
 
-use App\Models\Contact;
 use Tests\TestCase;
+use App\Models\Contact;
 
 use Database\Factories\ContactFactory;
 use Illuminate\Support\Collection;

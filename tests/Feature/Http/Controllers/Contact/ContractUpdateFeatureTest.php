@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Http\Controllers\Contact;
 
-use App\Http\Controllers\ContactController;
-use App\Models\Contact;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 use Tests\TestCase;
+
+use App\Models\Contact;
+use App\Http\Controllers\ContactController;
+
+use Illuminate\Http\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContractUpdateFeatureTest extends TestCase
 {
