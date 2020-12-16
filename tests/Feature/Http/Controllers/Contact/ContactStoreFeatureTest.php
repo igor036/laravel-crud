@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers\Contact;
 use Tests\TestCase;
 
 use App\Models\Contact;
+use App\Events\ContactChangedProcessed;
 use App\Http\Controllers\ContactController;
 
 use Illuminate\Http\Response;
@@ -21,6 +22,8 @@ class ContactStoreFeatureTest extends TestCase
      */
     public function it_should_create_new_contact_with_success()
     {
+
+        $this->expectsEvents(ContactChangedProcessed::class);
 
         $contact      = ContactFeatureTestUtil::mokeContactInstance(false);
         $response     = $this->post('contact', $contact->getAttributes());

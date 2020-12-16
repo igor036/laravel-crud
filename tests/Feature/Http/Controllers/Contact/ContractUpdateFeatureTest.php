@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Contact;
 
+use App\Events\ContactChangedProcessed;
 use Tests\TestCase;
 
 use App\Models\Contact;
@@ -34,6 +35,7 @@ class ContractUpdateFeatureTest extends TestCase
      */
     public function it_should_update_a_contact_with_success()
     {
+        $this->expectsEvents(ContactChangedProcessed::class);
 
         $contact = ContactFeatureTestUtil::mokeContactInstance(true);
         $contact->name = 'Igor Joaquim';
