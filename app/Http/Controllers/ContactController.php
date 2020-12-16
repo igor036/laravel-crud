@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use App\Models\Contact;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller {
 
@@ -48,6 +50,7 @@ class ContactController extends Controller {
 
         /** @var Contact contact */
         $contact = Contact::create($request->all());
+        Mail::send(new ContactMail('mail.contact_added', $contact));
         return $this->redirectToIndex(ContactController::CONTACT_CREATED_WITH_SUCCESS);
     }
 
@@ -67,6 +70,7 @@ class ContactController extends Controller {
 
         $contact = $this->getContact($id);
         if ($contact->delete()) {
+            Mail::send(new ContactMail('mail.contact_deleted', $contact));
             return $this->redirectToIndex(ContactController::CONTACT_DELETED_WITH_SUCCESS);
         }
 
