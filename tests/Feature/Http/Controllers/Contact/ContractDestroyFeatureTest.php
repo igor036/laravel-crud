@@ -5,7 +5,6 @@ namespace Tests\Feature\Http\Controllers\Contact;
 use Tests\TestCase;
 
 use App\Models\Contact;
-use App\Events\DeleteContactProcessed;
 use App\Http\Controllers\ContactController;
 
 use Illuminate\Http\Response;
@@ -31,10 +30,7 @@ class ContractDestroyFeatureTest extends TestCase
      */
     public function it_should_delete_a_existent_contact()
     {
-        $contact = ContactFeatureTestUtil::mokeContactInstance(true);
-
-        $this->expectsEvents(DeleteContactProcessed::class);
-
+        $contact  = ContactFeatureTestUtil::mokeContactInstance(true);
         $response = $this->delete('contact/'.$contact->id);
         $message  = $response->getSession()->get('message');
         $contact  = Contact::find($contact->id);

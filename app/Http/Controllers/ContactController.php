@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
-use App\Events\AddContactProcessed;
-use App\Events\DeleteContactProcessed;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -50,7 +48,6 @@ class ContactController extends Controller {
 
         /** @var Contact contact */
         $contact = Contact::create($request->all());
-        event(new AddContactProcessed($contact));
         return $this->redirectToIndex(ContactController::CONTACT_CREATED_WITH_SUCCESS);
     }
 
@@ -70,7 +67,6 @@ class ContactController extends Controller {
 
         $contact = $this->getContact($id);
         if ($contact->delete()) {
-            event(new DeleteContactProcessed($contact));
             return $this->redirectToIndex(ContactController::CONTACT_DELETED_WITH_SUCCESS);
         }
 
