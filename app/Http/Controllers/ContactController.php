@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ContactChangedProcessed;
-use App\Mail\ContactMail;
 use App\Models\Contact;
+use App\Events\ContactChangedProcessed;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller {
 
