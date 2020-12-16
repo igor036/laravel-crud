@@ -1,4 +1,4 @@
-<h1>You deleted a contact!</h1>
+<h1>You updated a contact!</h1>
 <br/>
 <b>Name: </b> {{ $contact->name }}<br/>
 <b>Email: </b> {{ $contact->email }}<br/>

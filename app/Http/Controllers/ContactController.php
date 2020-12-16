@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ContactChangedProcessed;
 use App\Mail\ContactMail;
 use App\Models\Contact;
 
@@ -50,7 +51,7 @@ class ContactController extends Controller {
 
         /** @var Contact contact */
         $contact = Contact::create($request->all());
-        Mail::send(new ContactMail('mail.contact_added', $contact));
+        ContactChangedProcessed::dispatch($contact, 'mail.contact_added');
         return $this->redirectToIndex(ContactController::CONTACT_CREATED_WITH_SUCCESS);
     }
 
@@ -61,8 +62,13 @@ class ContactController extends Controller {
     }
 
     public function update(int $id, Request $request) {
+
         $request->validate(ContactController::CONTACT_VALIDATION_RULES);
-        $this->getContact($id)->update($request->all());
+
+        $contact = $this->getContact($id);
+        $contact->update($request->all());
+
+        ContactChangedProcessed::dispatch($contact, 'mail.contact_updated');
         return $this->redirectToIndex(ContactController::CONTACT_UPDATED_WITH_SUCCESS);
     }
 
@@ -70,7 +76,6 @@ class ContactController extends Controller {
 
         $contact = $this->getContact($id);
         if ($contact->delete()) {
-            Mail::send(new ContactMail('mail.contact_deleted', $contact));
             return $this->redirectToIndex(ContactController::CONTACT_DELETED_WITH_SUCCESS);
         }
 

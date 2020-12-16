@@ -21,9 +21,7 @@ class ContactMail extends Mailable
 
     public function build()
     {
-        $sendTo = env('MAIL_SEND_TO');
         return $this
-            ->to($sendTo)
             ->view($this->view)
             ->with(['contact' => $this->contact]);
     }
